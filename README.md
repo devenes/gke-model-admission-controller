@@ -282,31 +282,6 @@ For the complete table of contents across all 55+ documentation pages, see the *
 
 ---
 
-## Repository Structure
-
-```text
-gke-model-admission-controller/
-├── api/v1alpha1/                      # CRD Go types (ModelArtifact, ClusterModelTrustPolicy)
-├── charts/model-admission-controller/ # Helm chart (CRDs, Deployment, Webhook, Cert, PDB, RBAC)
-├── cmd/
-│   ├── controller/                    # Kubernetes operator & ValidatingAdmissionWebhook binary
-│   ├── modelctl/                      # OCI v1.1 model bundle + 4-referrer packager CLI
-│   └── gke-e2e/                       # 42-scenario real-GKE verification & security runner
-├── config/crd/bases/                  # Standalone CustomResourceDefinition YAML manifests
-├── docs/                              # Full documentation suite, SVG diagrams, 13 tutorials, ADRs
-├── examples/                          # Synthetic fixtures, policies, and positive/negative workloads
-├── internal/
-│   ├── controller/                    # ModelArtifact & ClusterModelTrustPolicy reconcilers
-│   ├── metrics/                       # 11 Prometheus metrics registered with controller-runtime
-│   ├── policy/                        # 9-rule trust policy evaluator & RFC 8785 JCS policyDigest
-│   ├── registry/                      # Zero-weight OCI v1.1 client & Referrers resolver
-│   └── webhook/                       # Fail-closed ValidatingAdmissionWebhook handler
-├── terraform/                         # GCP VPC, GKE Standard Zonal, Artifact Registry, IAM, Monitoring
-└── tests/                             # End-to-end pipeline & 28-scenario security matrix tests
-```
-
----
-
 ## Known Limitations & Security Boundaries
 
 We document what this system guarantees—and what requires complementary controls—transparently:
