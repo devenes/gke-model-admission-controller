@@ -21,6 +21,14 @@
 
 </div>
 
+<div align="center">
+  <img
+    src="docs/assets/readme-cover.webp"
+    alt="GKE Model Admission Controller: 3D architecture illustration showing AI model supply-chain verification, Kubernetes admission security, and approved GKE inference workloads"
+    width="100%"
+  />
+</div>
+
 ---
 
 ## Why This Project Exists
