@@ -6,7 +6,8 @@
 
 *Verify that every AI foundation model and LoRA adapter deployed on Google Kubernetes Engine is content-addressed (`bundle-identity/v1`), OpenSSF-signed (`OMS v1.0`), documented (`CycloneDX 1.7 AI/ML-BOM`), behaviorally qualified (`llm-release-gate`), and bound to an immutable serving runtime—without downloading multi-gigabyte model weights into the controller pod.*
 
-[![Go 1.25](https://img.shields.io/badge/Go-1.25-00ADD8?logo=go&logoColor=white)](go.mod)
+[![CI](https://github.com/devenes/gke-model-admission-controller/actions/workflows/ci.yml/badge.svg)](https://github.com/devenes/gke-model-admission-controller/actions/workflows/ci.yml)
+[![Go 1.27](https://img.shields.io/badge/Go-1.27-00ADD8?logo=go&logoColor=white)](go.mod)
 [![Kubernetes / GKE](https://img.shields.io/badge/Kubernetes%20%2F%20GKE-1.29%2B-326CE5?logo=kubernetes&logoColor=white)](docs/guides/gke-deployment.md)
 [![Terraform](https://img.shields.io/badge/Terraform-1.6%2B-844FBA?logo=terraform&logoColor=white)](terraform/)
 [![Helm](https://img.shields.io/badge/Helm-3.14%2B-0F1689?logo=helm&logoColor=white)](charts/model-admission-controller/)

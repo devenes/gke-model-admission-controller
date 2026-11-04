@@ -1,0 +1,123 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-lint:
+    name: Go Build, Test (Race), Vet & Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout gke-model-admission-controller
+        uses: actions/checkout@v4
+
+      - name: Checkout sibling dependency ai-model-provenance-gate
+        run: |
+          git clone --depth 1 https://github.com/devenes/ai-model-provenance-gate.git ../ai-model-provenance-gate
+
+      - name: Set up Go 1.27.3
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.27.3"
+          cache: true
+
+      - name: Check gofmt formatting
+        run: |
+          unformatted=$(gofmt -s -l .)
+          if [ -n "$unformatted" ]; then
+            echo "The following files are not formatted with gofmt:"
+            echo "$unformatted"
+            exit 1
+          fi
+
+      - name: Run go vet
+        run: go vet ./...
+
+      - name: Run golangci-lint
+        run: |
+          go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.14.0
+          "$(go env GOPATH)/bin/golangci-lint" run ./...
+
+      - name: Build controller, modelctl, and gke-e2e binaries
+        run: make build
+
+      - name: Smoke test CLI binaries (--help)
+        run: |
+          ./bin/manager --help
+          ./bin/modelctl --help
+          ./bin/gke-e2e --help
+
+      - name: Run unit, webhook, reconciler, registry, and security matrix tests with race detector
+        run: go test -race -v ./...
+
+  infra-and-docs:
+    name: Helm, Terraform, CRD & Documentation Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+
+      - name: Lint and render Helm chart (Enforce & Audit modes)
+        run: |
+          helm lint ./charts/model-admission-controller
+          helm template model-admission-controller ./charts/model-admission-controller \
+            --namespace model-admission-system \
+            --set policy.enforcementMode=Enforce > /dev/null
+          helm template model-admission-controller ./charts/model-admission-controller \
+            --namespace model-admission-system \
+            --set policy.enforcementMode=Audit > /dev/null
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.8"
+
+      - name: Check Terraform formatting and validate configuration
+        run: |
+          terraform -chdir=terraform fmt -check -recursive
+          terraform -chdir=terraform init -backend=false
+          terraform -chdir=terraform validate
+
+      - name: Validate Markdown relative links
+        run: |
+          python3 -c '
+          import os, re, sys
+          root = "."
+          md_link_re = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
+          broken = []
+          for dirpath, dirnames, filenames in os.walk(root):
+              if ".git" in dirnames:
+                  dirnames.remove(".git")
+              for fn in filenames:
+                  if not fn.endswith(".md"):
+                      continue
+                  full = os.path.join(dirpath, fn)
+                  with open(full, "r", encoding="utf-8") as f:
+                      content = f.read()
+                  content_no_code = re.sub(r"```.*?```", "", content, flags=re.DOTALL)
+                  for m in md_link_re.finditer(content_no_code):
+                      target = m.group(1).strip().split()[0]
+                      if target.startswith(("http://", "https://", "mailto:", "#")):
+                          continue
+                      path_part = target.split("#")[0]
+                      if not path_part:
+                          continue
+                      resolved = os.path.normpath(os.path.join(dirpath, path_part))
+                      if not os.path.exists(resolved):
+                          broken.append((full, target))
+          if broken:
+              for src, tgt in broken:
+                  print(f"BROKEN LINK: {src} -> {tgt}")
+              sys.exit(1)
+          print("All Markdown relative links verified.")
+          '
