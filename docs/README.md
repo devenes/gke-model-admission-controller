@@ -19,6 +19,7 @@ This system is the Kubernetes admission and enforcement plane of a three-reposit
 Deploy, operate, and monitor the admission controller and its Google Cloud infrastructure.
 
 - **[Quick Start](QUICKSTART.md)** — Shortest path from clone to verified local checks and GKE deployment.
+- **[Hands-On Workshop & Live Demo Runbook](WORKSHOP.md)** — Step-by-step instructor & audience guide (45–60 min laptop lab or 75–90 min live GKE session).
 - **[GKE Deployment & Terraform Runbook](GKE_DEPLOYMENT.md)** — Provisioning VPC, Cloud NAT, private GKE Standard nodes, Artifact Registry, and Workload Identity via Terraform.
 - **[Terraform Guide](guides/terraform-guide.md)** — Detailed breakdown of the 20 Terraform-managed GCP resources.
 - **[Helm Installation Guide](guides/helm-installation.md)** — Installing `cert-manager`, CRDs, and the 2-replica HA controller chart.

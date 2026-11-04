@@ -17,7 +17,7 @@
 [![in-toto / DSSE](https://img.shields.io/badge/in--toto-Statement%20v1%20%2F%20DSSE-4B32C3)](docs/concepts/in-toto-attestations.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-[**Architecture**](docs/architecture/overview.md) • [**Quick Start**](docs/QUICKSTART.md) • [**13-Part Tutorial Series**](docs/tutorials/01-understanding-ai-model-admission.md) • [**Security Model**](docs/security/threat-model.md) • [**GKE Deployment**](docs/guides/gke-deployment.md) • [**Operations**](docs/operations/day-two-operations.md)
+[**Architecture**](docs/architecture/overview.md) • [**Quick Start**](docs/QUICKSTART.md) • [**Live Workshop Runbook**](docs/WORKSHOP.md) • [**13-Part Tutorial Series**](docs/tutorials/01-understanding-ai-model-admission.md) • [**Security Model**](docs/security/threat-model.md) • [**GKE Deployment**](docs/guides/gke-deployment.md) • [**Operations**](docs/operations/day-two-operations.md)
 
 </div>
 
