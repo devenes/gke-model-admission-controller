@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 520" width="100%" height="auto" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <rect width="1060" height="520" rx="16" fill="#0f172a"/>
+  <text x="530" y="40" text-anchor="middle" fill="#f8fafc" font-size="21" font-weight="700">Google Cloud &amp; GKE Standard Deployment Architecture (Terraform Managed)</text>
+  <text x="530" y="64" text-anchor="middle" fill="#94a3b8" font-size="13">Private Worker Nodes • Scoped Webhook Firewall (:9443) • Workload Identity Federation • Managed Prometheus</text>
+
+  <!-- Outer GCP Project Box -->
+  <rect x="30" y="85" width="1000" height="405" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+  <text x="55" y="112" fill="#38bdf8" font-size="14" font-weight="700">Google Cloud Project (Terraform Managed — 20 Resources)</text>
+
+  <!-- VPC Box -->
+  <rect x="50" y="130" width="630" height="340" rx="10" fill="#0f172a" stroke="#475569" stroke-width="1.5"/>
+  <text x="70" y="155" fill="#cbd5e1" font-size="13" font-weight="700">Custom VPC + Subnet (10.10.0.0/20) + Cloud Router &amp; Cloud NAT</text>
+
+  <!-- Firewall -->
+  <rect x="70" y="170" width="590" height="42" rx="6" fill="#172554" stroke="#3b82f6" stroke-width="1"/>
+  <text x="365" y="195" text-anchor="middle" fill="#dbeafe" font-size="12" font-weight="600">Scoped Firewall: Allow TCP :9443 from GKE Control Plane (172.16.0.0/28) Only (No 0.0.0.0/0)</text>
+
+  <!-- GKE Cluster Box -->
+  <rect x="70" y="225" width="590" height="225" rx="8" fill="#1e293b" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="90" y="250" fill="#4ade80" font-size="13" font-weight="700">GKE Standard Cluster (CPU-Only, 2 x e2-standard-4 Private Worker Nodes)</text>
+
+  <!-- Node 1 & Node 2 -->
+  <rect x="90" y="268" width="265" height="162" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.2"/>
+  <text x="222" y="290" text-anchor="middle" fill="#f8fafc" font-size="12.5" font-weight="700">Private Worker Node 1</text>
+  <text x="222" y="312" text-anchor="middle" fill="#38bdf8" font-size="11.5">Controller Replica 1 (1/1 Ready)</text>
+  <text x="222" y="330" text-anchor="middle" fill="#94a3b8" font-size="11">Non-Root 65532 • Read-Only RootFS</text>
+  <text x="222" y="352" text-anchor="middle" fill="#fde047" font-size="11">cert-manager TLS (:9443)</text>
+  <text x="222" y="370" text-anchor="middle" fill="#a855f7" font-size="11">PodDisruptionBudget (minAvailable: 1)</text>
+  <text x="222" y="392" text-anchor="middle" fill="#4ade80" font-size="11">Enforced Workloads (ai-serving)</text>
+
+  <rect x="375" y="268" width="265" height="162" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.2"/>
+  <text x="507" y="290" text-anchor="middle" fill="#f8fafc" font-size="12.5" font-weight="700">Private Worker Node 2</text>
+  <text x="507" y="312" text-anchor="middle" fill="#38bdf8" font-size="11.5">Controller Replica 2 (1/1 Ready)</text>
+  <text x="507" y="330" text-anchor="middle" fill="#94a3b8" font-size="11">Non-Root 65532 • Read-Only RootFS</text>
+  <text x="507" y="352" text-anchor="middle" fill="#fde047" font-size="11">cert-manager TLS (:9443)</text>
+  <text x="507" y="370" text-anchor="middle" fill="#a855f7" font-size="11">Pod Anti-Affinity Spread</text>
+  <text x="507" y="392" text-anchor="middle" fill="#4ade80" font-size="11">Enforced Workloads (ai-serving)</text>
+
+  <!-- Right Column: GCP Managed Services -->
+  <rect x="710" y="130" width="300" height="100" rx="8" fill="#0f172a" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="860" y="158" text-anchor="middle" fill="#d8b4fe" font-size="13.5" font-weight="700">Google Artifact Registry</text>
+  <text x="860" y="180" text-anchor="middle" fill="#cbd5e1" font-size="11.5">OCI v1.1 Model Bundles &amp; 4 Referrers</text>
+  <text x="860" y="200" text-anchor="middle" fill="#94a3b8" font-size="11">Controller OCI Container Image</text>
+
+  <rect x="710" y="250" width="300" height="100" rx="8" fill="#0f172a" stroke="#eab308" stroke-width="1.5"/>
+  <text x="860" y="278" text-anchor="middle" fill="#fde047" font-size="13.5" font-weight="700">Workload Identity &amp; IAM</text>
+  <text x="860" y="300" text-anchor="middle" fill="#cbd5e1" font-size="11.5">KSA -&gt; GSA (Keyless OIDC Federation)</text>
+  <text x="860" y="320" text-anchor="middle" fill="#94a3b8" font-size="11">roles/artifactregistry.reader (Least Privilege)</text>
+
+  <rect x="710" y="370" width="300" height="100" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="860" y="398" text-anchor="middle" fill="#38bdf8" font-size="13.5" font-weight="700">Cloud Monitoring &amp; GMP</text>
+  <text x="860" y="420" text-anchor="middle" fill="#cbd5e1" font-size="11.5">PodMonitoring (:8080/metrics every 30s)</text>
+  <text x="860" y="440" text-anchor="middle" fill="#94a3b8" font-size="11">11 Security &amp; Provenance Metrics</text>
+
+  <line x1="660" y1="300" x2="710" y2="300" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="660" y1="190" x2="710" y2="190" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="660" y1="415" x2="710" y2="415" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+</svg>

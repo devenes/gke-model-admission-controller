@@ -1,0 +1,10 @@
+{
+  "peft_type": "LORA",
+  "task_type": "CAUSAL_LM",
+  "base_model_name_or_path": "meta-llama/Llama-3-8B",
+  "revision": "043235d6088ecd3dd5fb5ca3592b6913fd516027",
+  "r": 8,
+  "lora_alpha": 16,
+  "lora_dropout": 0.05,
+  "target_modules": ["q_proj", "v_proj"]
+}

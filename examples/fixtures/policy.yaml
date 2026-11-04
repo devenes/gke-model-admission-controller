@@ -1,0 +1,44 @@
+schema_version: "v1"
+name: "gke-strict-release-policy"
+
+bundle:
+  reject_symlinks: true
+  require_deterministic_identity: true
+  allow_unknown_files: false
+
+signing:
+  require_oms: true
+  oms_mode: "native"
+  trusted_signers:
+    - id: "ms-1"
+      name: "Model Signer 1"
+      key_id: "ms-1"
+      public_key_path: "/tmp/gke-model-tutorial/keys/model-signer.pub"
+
+evaluation:
+  required: true
+  required_status: PASS
+  require_artifact_binding: true
+  require_trusted_evidence: true
+  allow_post_hoc_binding: false
+  trusted_signers:
+    - id: "ev-1"
+      name: "Evaluator 1"
+      key_id: "ev-1"
+      public_key_path: "/tmp/gke-model-tutorial/keys/evaluator.pub"
+
+scanner:
+  required: false
+
+deployment:
+  require_immutable_image: true
+  require_serving_config: true
+
+release:
+  decision_mode: strict
+  require_signed_qualification: true
+  trusted_signers:
+    - id: "ra-1"
+      name: "Release Authority 1"
+      key_id: "ra-1"
+      public_key_path: "/tmp/gke-model-tutorial/keys/release-authority.pub"

@@ -1,0 +1,272 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: clustermodeltrustpolicies.trust.gke.dev
+spec:
+  group: trust.gke.dev
+  names:
+    kind: ClusterModelTrustPolicy
+    listKind: ClusterModelTrustPolicyList
+    plural: clustermodeltrustpolicies
+    singular: clustermodeltrustpolicy
+    shortNames:
+      - cmtp
+  scope: Cluster
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+      additionalPrinterColumns:
+        - name: Ready
+          type: boolean
+          jsonPath: .status.ready
+        - name: Mode
+          type: string
+          jsonPath: .spec.enforcementMode
+        - name: PolicyDigest
+          type: string
+          jsonPath: .status.policyDigest
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
+      schema:
+        openAPIV3Schema:
+          type: object
+          description: ClusterModelTrustPolicy defines cluster-wide cryptographic trust domains and admission requirements for AI models.
+          required:
+            - spec
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              type: object
+              required:
+                - allowedRegistries
+                - trustDomains
+                - requirements
+              properties:
+                enforcementMode:
+                  type: string
+                  enum:
+                    - Enforce
+                    - Audit
+                  default: Enforce
+                allowedRegistries:
+                  type: array
+                  minItems: 1
+                  items:
+                    type: string
+                verificationTTLSeconds:
+                  type: integer
+                  format: int64
+                  default: 3600
+                maxEvidenceAgeHours:
+                  type: integer
+                  default: 168
+                trustDomains:
+                  type: object
+                  required:
+                    - modelSigners
+                    - evaluators
+                    - releaseAuthorities
+                  properties:
+                    modelSigners:
+                      type: array
+                      items:
+                        type: object
+                        required:
+                          - id
+                        properties:
+                          id:
+                            type: string
+                          name:
+                            type: string
+                          role:
+                            type: string
+                          keyID:
+                            type: string
+                          keyFingerprint:
+                            type: string
+                          allowOperatorEndorsement:
+                            type: boolean
+                          publicKeyPEM:
+                            type: string
+                          secretRef:
+                            type: object
+                            required:
+                              - namespace
+                              - name
+                              - key
+                            properties:
+                              namespace:
+                                type: string
+                              name:
+                                type: string
+                              key:
+                                type: string
+                    evaluators:
+                      type: array
+                      items:
+                        type: object
+                        required:
+                          - id
+                        properties:
+                          id:
+                            type: string
+                          name:
+                            type: string
+                          role:
+                            type: string
+                          keyID:
+                            type: string
+                          keyFingerprint:
+                            type: string
+                          allowOperatorEndorsement:
+                            type: boolean
+                          publicKeyPEM:
+                            type: string
+                          secretRef:
+                            type: object
+                            required:
+                              - namespace
+                              - name
+                              - key
+                            properties:
+                              namespace:
+                                type: string
+                              name:
+                                type: string
+                              key:
+                                type: string
+                    releaseAuthorities:
+                      type: array
+                      items:
+                        type: object
+                        required:
+                          - id
+                        properties:
+                          id:
+                            type: string
+                          name:
+                            type: string
+                          role:
+                            type: string
+                          keyID:
+                            type: string
+                          keyFingerprint:
+                            type: string
+                          allowOperatorEndorsement:
+                            type: boolean
+                          publicKeyPEM:
+                            type: string
+                          secretRef:
+                            type: object
+                            required:
+                              - namespace
+                              - name
+                              - key
+                            properties:
+                              namespace:
+                                type: string
+                              name:
+                                type: string
+                              key:
+                                type: string
+                requirements:
+                  type: object
+                  properties:
+                    requireOMSSignature:
+                      type: boolean
+                    requireCycloneDXBOM:
+                      type: boolean
+                    requireEvaluationGatePass:
+                      type: boolean
+                    requireNativeEvaluatorBinding:
+                      type: boolean
+                    rejectPostHocBinding:
+                      type: boolean
+                    requireReleaseQualification:
+                      type: boolean
+                    requireImmutableRuntimeImage:
+                      type: boolean
+                    requireServingConfigBinding:
+                      type: boolean
+                    requireVerifiedLoRABase:
+                      type: boolean
+                    allowUnknownBundleFiles:
+                      type: boolean
+                    expectedSuiteDigest:
+                      type: string
+                    expectedDatasetDigest:
+                      type: string
+                exemptions:
+                  type: object
+                  properties:
+                    exemptServiceAccounts:
+                      type: array
+                      items:
+                        type: string
+                    exemptPodLabels:
+                      type: object
+                      additionalProperties:
+                        type: string
+            status:
+              type: object
+              properties:
+                observedGeneration:
+                  type: integer
+                  format: int64
+                ready:
+                  type: boolean
+                policyDigest:
+                  type: string
+                resolvedModelSignerFingerprints:
+                  type: array
+                  items:
+                    type: string
+                resolvedEvaluatorFingerprints:
+                  type: array
+                  items:
+                    type: string
+                resolvedReleaseAuthorityFingerprints:
+                  type: array
+                  items:
+                    type: string
+                lastReconciledAt:
+                  type: string
+                  format: date-time
+                failureReason:
+                  type: string
+                failureMessage:
+                  type: string
+                conditions:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - type
+                      - status
+                      - lastTransitionTime
+                      - reason
+                      - message
+                    properties:
+                      type:
+                        type: string
+                      status:
+                        type: string
+                      observedGeneration:
+                        type: integer
+                        format: int64
+                      lastTransitionTime:
+                        type: string
+                        format: date-time
+                      reason:
+                        type: string
+                      message:
+                        type: string

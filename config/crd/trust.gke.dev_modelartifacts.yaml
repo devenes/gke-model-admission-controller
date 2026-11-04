@@ -1,0 +1,179 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: modelartifacts.trust.gke.dev
+spec:
+  group: trust.gke.dev
+  names:
+    kind: ModelArtifact
+    listKind: ModelArtifactList
+    plural: modelartifacts
+    singular: modelartifact
+    shortNames:
+      - ma
+  scope: Namespaced
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+      additionalPrinterColumns:
+        - name: Verified
+          type: boolean
+          jsonPath: .status.verified
+        - name: BundleID
+          type: string
+          jsonPath: .spec.identity.bundleID
+        - name: Reason
+          type: string
+          jsonPath: .status.failureReason
+        - name: ValidUntil
+          type: string
+          jsonPath: .status.validUntil
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
+      schema:
+        openAPIV3Schema:
+          type: object
+          description: ModelArtifact declares an immutable OCI AI model bundle and tracks its cryptographic supply-chain verification state.
+          required:
+            - spec
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              type: object
+              required:
+                - artifact
+                - identity
+              x-kubernetes-validations:
+                - rule: "self == oldSelf"
+                  message: "ModelArtifact.spec is immutable once created; create a new ModelArtifact version for a new model release."
+              properties:
+                policyName:
+                  type: string
+                  default: "default"
+                artifact:
+                  type: object
+                  required:
+                    - uri
+                  properties:
+                    uri:
+                      type: string
+                      pattern: '^.+@sha256:[0-9a-f]{64}$'
+                identity:
+                  type: object
+                  required:
+                    - bundleID
+                  properties:
+                    bundleID:
+                      type: string
+                      pattern: '^sha256:[0-9a-f]{64}$'
+                runtime:
+                  type: object
+                  properties:
+                    runtimeImage:
+                      type: string
+                    servingConfigDigest:
+                      type: string
+                      pattern: '^sha256:[0-9a-f]{64}$'
+                    baseModelArtifact:
+                      type: string
+                evidenceRefs:
+                  type: object
+                  properties:
+                    omsSignatureDigest:
+                      type: string
+                    bomArtifactDigest:
+                      type: string
+                    evaluationAttestationDigest:
+                      type: string
+                    releaseQualificationDigest:
+                      type: string
+            status:
+              type: object
+              properties:
+                observedGeneration:
+                  type: integer
+                  format: int64
+                verified:
+                  type: boolean
+                policyName:
+                  type: string
+                policyDigest:
+                  type: string
+                resolvedManifestDigest:
+                  type: string
+                bundleManifestDigest:
+                  type: string
+                verifiedBundleID:
+                  type: string
+                bomCanonicalDigest:
+                  type: string
+                omsSignatureDigest:
+                  type: string
+                omsSignerFingerprint:
+                  type: string
+                evaluationReportDigest:
+                  type: string
+                evaluationAttestationDigest:
+                  type: string
+                evaluationGateStatus:
+                  type: string
+                evaluationBindingMode:
+                  type: string
+                evaluationSignerFingerprint:
+                  type: string
+                releaseQualificationDigest:
+                  type: string
+                releaseAuthorityFingerprint:
+                  type: string
+                runtimeImage:
+                  type: string
+                servingConfigDigest:
+                  type: string
+                loraVerificationStatus:
+                  type: string
+                verifiedBaseBundleID:
+                  type: string
+                lastVerifiedAt:
+                  type: string
+                  format: date-time
+                validUntil:
+                  type: string
+                  format: date-time
+                failureReason:
+                  type: string
+                failureMessage:
+                  type: string
+                conditions:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - type
+                      - status
+                      - lastTransitionTime
+                      - reason
+                      - message
+                    properties:
+                      type:
+                        type: string
+                      status:
+                        type: string
+                      observedGeneration:
+                        type: integer
+                        format: int64
+                      lastTransitionTime:
+                        type: string
+                        format: date-time
+                      reason:
+                        type: string
+                      message:
+                        type: string

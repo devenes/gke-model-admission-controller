@@ -1,0 +1,15 @@
+apiVersion: trust.gke.dev/v1alpha1
+kind: ModelArtifact
+metadata:
+  name: gemma-2b-lora
+  namespace: ai-serving
+spec:
+  artifact:
+    uri: us-west4-docker.pkg.dev/PROJECT_ID/models/gemma-2b-lora@sha256:37ec3a902980b3d1ba9f732499cd3e33c364ff7894b476cdcd9a033b999f66ec
+  identity:
+    bundleID: sha256:f22610dc81490dfe0120fa56ea94f86d15d3e64b347909da6de231708009e123
+  policyName: default
+  runtime:
+    baseModelArtifact: gemma-2b-it
+    runtimeImage: us-west4-docker.pkg.dev/PROJECT_ID/models/gke-model-admission-controller@sha256:9ca52f2367a58106b6081085e6d3c9020409e03dbc34e21155f06600e8d83c93
+    servingConfigDigest: sha256:5555555555555555555555555555555555555555555555555555555555555555

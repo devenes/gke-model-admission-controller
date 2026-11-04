@@ -1,0 +1,6 @@
+apiVersion: serving.gke.dev/v1
+kind: ServingConfig
+model: gemma-2b-it
+maxModelLen: 4096
+temperature: 0.0
+systemPromptPolicy: strict-enterprise-v1

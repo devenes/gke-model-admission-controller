@@ -1,0 +1,39 @@
+replicaCount: 2
+
+image:
+  repository: us-west4-docker.pkg.dev/PROJECT_ID/models/gke-model-admission-controller
+  digest: "sha256:9ca52f2367a58106b6081085e6d3c9020409e03dbc34e21155f06600e8d83c93"
+  tag: v0.1.0
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name: gke-model-admission-controller
+  gcpServiceAccount: gke-model-admission-controller@PROJECT_ID.iam.gserviceaccount.com
+
+webhook:
+  port: 9443
+  timeoutSeconds: 2
+  failurePolicy: Fail
+  enforceLabelKey: trust.gke.dev/enforce
+  enforceLabelValue: "true"
+
+certManager:
+  enabled: true
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+monitoring:
+  podMonitoring:
+    enabled: true
+    interval: 30s
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi

@@ -1,0 +1,53 @@
+apiVersion: trust.gke.dev/v1alpha1
+kind: ClusterModelTrustPolicy
+metadata:
+  name: default
+spec:
+  allowedRegistries:
+    - us-west4-docker.pkg.dev/PROJECT_ID/models/
+  enforcementMode: Enforce
+  exemptions:
+    exemptPodLabels:
+      trust.gke.dev/exempt: "true"
+    exemptServiceAccounts:
+      - system:serviceaccount:kube-system:*
+      - system:serviceaccount:ai-serving:exempt-breakglass-sa
+  maxEvidenceAgeHours: 24
+  requirements:
+    expectedDatasetDigest: sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+    expectedSuiteDigest: sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    rejectPostHocBinding: true
+    requireCycloneDXBOM: true
+    requireEvaluationGatePass: true
+    requireImmutableRuntimeImage: true
+    requireNativeEvaluatorBinding: true
+    requireOMSSignature: true
+    requireReleaseQualification: true
+    requireServingConfigBinding: true
+    requireVerifiedLoRABase: true
+  trustDomains:
+    evaluators:
+      - id: eval-signer-1
+        keyFingerprint: sha256:646ce419567a2f95b82470618af48038272f3a7788afa4f032bfe087e3297315
+        keyID: ev-1
+        secretRef:
+          key: evaluator.pub
+          name: model-trust-keys
+          namespace: model-admission-system
+    modelSigners:
+      - id: model-signer-1
+        keyFingerprint: sha256:8844fb38f2944210c95ec05a5616f6824f891feae89e50efbac486a57e9d260e
+        keyID: ms-1
+        secretRef:
+          key: model-signer.pub
+          name: model-trust-keys
+          namespace: model-admission-system
+    releaseAuthorities:
+      - id: rel-signer-1
+        keyFingerprint: sha256:0875c6abdf1477b846f3d8f7a6e52a113b46eabc4f58e688838b60e78b841e91
+        keyID: ra-1
+        secretRef:
+          key: release-authority.pub
+          name: model-trust-keys
+          namespace: model-admission-system
+  verificationTTLSeconds: 3600

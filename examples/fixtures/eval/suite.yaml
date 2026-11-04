@@ -1,0 +1,34 @@
+apiVersion: llm-release-gate/v1
+kind: EvaluationSuite
+
+metadata:
+  name: gke-admission-suite
+  version: "1.0.0"
+  description: "Behavioral release qualification suite for GKE Model Admission Controller"
+
+dataset:
+  path: ./cases.jsonl
+
+execution:
+  timeout: 15s
+  concurrency: 1
+  repetitions: 1
+  warmupRequests: 0
+
+policy:
+  requireAllCases: true
+  onIncomplete: block
+  onInsufficientSamples: block
+  allowOptionalFailures: true
+  minPassRate: 1.0
+  maxLatencyP95Ms: 250.0
+  regression:
+    requireComparableBaseline: false
+    onIncomparableBaseline: block
+    maxPassRateDrop: 0.0
+    maxErrorRateIncrease: 0.0
+    maxLatencyP95IncreasePercent: 25.0
+    maxLatencyMeanIncreasePercent: 25.0
+
+artifacts:
+  includeRawOutputs: false

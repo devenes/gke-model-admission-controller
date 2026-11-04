@@ -1,0 +1,9 @@
+project_id                = "PROJECT_ID"
+region                    = "us-west4"
+zone                      = "us-west4-a"
+cluster_name              = "gke-model-admission-demo"
+node_count                = 2
+machine_type              = "e2-standard-4"
+artifact_registry_repo_id = "models"
+controller_namespace      = "model-admission-system"
+controller_ksa_name       = "gke-model-admission-controller"

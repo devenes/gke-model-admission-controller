@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 440" width="100%" height="auto" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+  </defs>
+
+  <rect width="1060" height="440" rx="16" fill="#0f172a"/>
+  <text x="530" y="40" text-anchor="middle" fill="#f8fafc" font-size="21" font-weight="700">LoRA Adapter Cryptographic Trust Composition</text>
+  <text x="530" y="64" text-anchor="middle" fill="#94a3b8" font-size="13">Preventing Base-Model Substitution Attacks (TM-10 / N-27) via Dual-Artifact Provenance Binding</text>
+
+  <!-- Base Model Box -->
+  <rect x="40" y="100" width="300" height="290" rx="12" fill="#1e293b" stroke="#22c55e" stroke-width="2"/>
+  <text x="190" y="130" text-anchor="middle" fill="#4ade80" font-size="15" font-weight="700">1. Verified Base ModelArtifact</text>
+  <text x="190" y="152" text-anchor="middle" fill="#cbd5e1" font-size="12" font-family="monospace">ModelArtifact/gemma-2b-it</text>
+  <line x1="60" y1="168" x2="320" y2="168" stroke="#334155" stroke-width="1"/>
+  <text x="60" y="195" fill="#f8fafc" font-size="12" font-weight="600">Cryptographic State:</text>
+  <text x="60" y="218" fill="#86efac" font-size="11.5">• status.verified: true</text>
+  <text x="60" y="238" fill="#86efac" font-size="11.5">• status.verifiedBundleID: sha256:B_base</text>
+  <text x="60" y="258" fill="#cbd5e1" font-size="11.5">• status.policyDigest == activePolicy</text>
+  <text x="60" y="278" fill="#cbd5e1" font-size="11.5">• status.validUntil &gt; now</text>
+  <text x="60" y="308" fill="#94a3b8" font-size="11">Independently signed &amp; qualified with</text>
+  <text x="60" y="325" fill="#94a3b8" font-size="11">its own OMS, BOM, Eval &amp; Release refs.</text>
+
+  <!-- LoRA Adapter Box -->
+  <rect x="390" y="100" width="320" height="290" rx="12" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+  <text x="550" y="130" text-anchor="middle" fill="#38bdf8" font-size="15" font-weight="700">2. LoRA Adapter ModelArtifact</text>
+  <text x="550" y="152" text-anchor="middle" fill="#cbd5e1" font-size="12" font-family="monospace">ModelArtifact/gemma-2b-lora</text>
+  <line x1="410" y1="168" x2="690" y2="168" stroke="#334155" stroke-width="1"/>
+  <text x="410" y="195" fill="#f8fafc" font-size="12" font-weight="600">Cryptographic Bindings:</text>
+  <text x="410" y="218" fill="#7dd3fc" font-size="11.5">• spec.runtime.baseModelArtifact: gemma-2b-it</text>
+  <text x="410" y="238" fill="#7dd3fc" font-size="11.5">• bundle-manifest.json:</text>
+  <text x="425" y="256" fill="#fde047" font-size="11" font-family="monospace">verified_base_bundle_id: sha256:B_base</text>
+  <text x="410" y="278" fill="#7dd3fc" font-size="11.5">• CycloneDX 1.7 BOM &amp; Release Attestation</text>
+  <text x="425" y="296" fill="#cbd5e1" font-size="11">bind sha256:B_lora -&gt; sha256:B_base</text>
+  <text x="410" y="325" fill="#86efac" font-size="11.5">• status.loraVerificationStatus: VERIFIED</text>
+
+  <line x1="390" y1="245" x2="340" y2="245" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Admission Check Box -->
+  <rect x="755" y="100" width="265" height="290" rx="12" fill="#172554" stroke="#3b82f6" stroke-width="2"/>
+  <text x="887" y="130" text-anchor="middle" fill="#f8fafc" font-size="15" font-weight="700">3. Admission Verification</text>
+  <text x="887" y="152" text-anchor="middle" fill="#93c5fd" font-size="12">Reconciler + Webhook Check</text>
+  <line x1="775" y1="168" x2="1000" y2="168" stroke="#1d4ed8" stroke-width="1"/>
+  <text x="775" y="198" fill="#dbeafe" font-size="11.5">1. Base ModelArtifact exists &amp;</text>
+  <text x="790" y="216" fill="#dbeafe" font-size="11.5">status.verified == true</text>
+  <text x="775" y="244" fill="#dbeafe" font-size="11.5">2. Adapter verified_base_bundle_id</text>
+  <text x="790" y="262" fill="#fde047" font-size="11" font-family="monospace">== Base.status.verifiedBundleID</text>
+  <text x="775" y="290" fill="#dbeafe" font-size="11.5">3. Both artifacts match active</text>
+  <text x="790" y="308" fill="#dbeafe" font-size="11.5">policyDigest &amp; validUntil</text>
+  <text x="775" y="345" fill="#f87171" font-size="11.5" font-weight="600">Mismatch -&gt; DENY</text>
+  <text x="775" y="363" fill="#fecaca" font-size="11" font-family="monospace">[LoRABaseModelUnverified]</text>
+
+  <line x1="710" y1="245" x2="755" y2="245" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow)"/>
+</svg>

@@ -1,0 +1,10 @@
+{
+  "architectures": ["LlamaForCausalLM"],
+  "model_type": "llama",
+  "torch_dtype": "bfloat16",
+  "vocab_size": 32000,
+  "hidden_size": 4096,
+  "num_hidden_layers": 32,
+  "num_attention_heads": 32,
+  "license": "apache-2.0"
+}

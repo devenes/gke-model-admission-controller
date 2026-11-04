@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 540" width="100%" height="auto" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <rect width="1060" height="540" rx="16" fill="#0f172a"/>
+  <text x="530" y="40" text-anchor="middle" fill="#f8fafc" font-size="21" font-weight="700">Three Independent Cryptographic Digest Domains &amp; Bridging</text>
+  <text x="530" y="64" text-anchor="middle" fill="#94a3b8" font-size="13">Why OCI Manifest Digest ≠ Model Bundle Identity (bundle_id) ≠ OpenSSF Model Signing Root Digest</text>
+
+  <!-- Domain 1 -->
+  <rect x="35" y="95" width="305" height="250" rx="12" fill="#1e293b" stroke="#a855f7" stroke-width="2"/>
+  <text x="187" y="125" text-anchor="middle" fill="#d8b4fe" font-size="15" font-weight="700">Domain 1: OCI Manifest Digest</text>
+  <text x="187" y="148" text-anchor="middle" fill="#f8fafc" font-size="12" font-family="monospace">sha256(OCI Image Manifest JSON)</text>
+  <line x1="55" y1="162" x2="320" y2="162" stroke="#334155" stroke-width="1"/>
+  <text x="55" y="186" fill="#cbd5e1" font-size="12" font-weight="600">Inputs:</text>
+  <text x="55" y="206" fill="#94a3b8" font-size="11.5">• schemaVersion: 2, mediaType</text>
+  <text x="55" y="224" fill="#94a3b8" font-size="11.5">• artifactType: model-bundle.v1</text>
+  <text x="55" y="242" fill="#94a3b8" font-size="11.5">• config descriptor (bundle-manifest.json)</text>
+  <text x="55" y="260" fill="#94a3b8" font-size="11.5">• layers[] descriptors (sha256, size, path)</text>
+  <text x="55" y="290" fill="#cbd5e1" font-size="12" font-weight="600">Used For:</text>
+  <text x="55" y="310" fill="#d8b4fe" font-size="11.5">• ModelArtifact.spec.artifact.uri</text>
+  <text x="55" y="328" fill="#d8b4fe" font-size="11.5">• OCI 1.1 Referrer subject.digest</text>
+
+  <!-- Domain 2 -->
+  <rect x="377" y="95" width="305" height="250" rx="12" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+  <text x="530" y="125" text-anchor="middle" fill="#7dd3fc" font-size="15" font-weight="700">Domain 2: Bundle Identity (bundle_id)</text>
+  <text x="530" y="148" text-anchor="middle" fill="#f8fafc" font-size="12" font-family="monospace">sha256(JCS(bundle-identity/v1))</text>
+  <line x1="397" y1="162" x2="662" y2="162" stroke="#334155" stroke-width="1"/>
+  <text x="397" y="186" fill="#cbd5e1" font-size="12" font-weight="600">Inputs:</text>
+  <text x="397" y="206" fill="#94a3b8" font-size="11.5">• RFC 8785 Canonical JSON over:</text>
+  <text x="397" y="224" fill="#94a3b8" font-size="11.5">  schema_version: "bundle-identity/v1"</text>
+  <text x="397" y="242" fill="#94a3b8" font-size="11.5">  sorted files[{path, sha256, size}]</text>
+  <text x="397" y="260" fill="#94a3b8" font-size="11.5">  (Registry-agnostic content identity)</text>
+  <text x="397" y="290" fill="#cbd5e1" font-size="12" font-weight="600">Used For:</text>
+  <text x="397" y="310" fill="#7dd3fc" font-size="11.5">• ModelArtifact.spec.identity.bundleID</text>
+  <text x="397" y="328" fill="#7dd3fc" font-size="11.5">• CycloneDX BOM, Eval &amp; Release Subject</text>
+
+  <!-- Domain 3 -->
+  <rect x="720" y="95" width="305" height="250" rx="12" fill="#1e293b" stroke="#22c55e" stroke-width="2"/>
+  <text x="872" y="125" text-anchor="middle" fill="#86efac" font-size="15" font-weight="700">Domain 3: OMS v1.0 Root Digest</text>
+  <text x="872" y="148" text-anchor="middle" fill="#f8fafc" font-size="12" font-family="monospace">sha256(concat(raw 32B digests))</text>
+  <line x1="740" y1="162" x2="1005" y2="162" stroke="#334155" stroke-width="1"/>
+  <text x="740" y="186" fill="#cbd5e1" font-size="12" font-weight="600">Inputs:</text>
+  <text x="740" y="206" fill="#94a3b8" font-size="11.5">• Binary concatenation of sorted</text>
+  <text x="740" y="224" fill="#94a3b8" font-size="11.5">  32-byte SHA-256 digests of each</text>
+  <text x="740" y="242" fill="#94a3b8" font-size="11.5">  resource[] entry in OMS payload</text>
+  <text x="740" y="260" fill="#94a3b8" font-size="11.5">• Per-file sha256 in predicate.resources</text>
+  <text x="740" y="290" fill="#cbd5e1" font-size="12" font-weight="600">Used For:</text>
+  <text x="740" y="310" fill="#86efac" font-size="11.5">• OpenSSF Model Signing v1.0 DSSE</text>
+  <text x="740" y="328" fill="#86efac" font-size="11.5">  in-toto Statement subject[0].digest</text>
+
+  <!-- Cryptographic Bridge Box -->
+  <rect x="35" y="385" width="990" height="120" rx="12" fill="#172554" stroke="#3b82f6" stroke-width="2"/>
+  <text x="530" y="415" text-anchor="middle" fill="#f8fafc" font-size="15" font-weight="700">Cryptographic Bridge in Verification Engine (Stages 2–7)</text>
+  <text x="530" y="440" text-anchor="middle" fill="#dbeafe" font-size="12.5">1. OCI Subject Manifest layers[] descriptors provide observed (path, role, sha256, size) without downloading weights.</text>
+  <text x="530" y="462" text-anchor="middle" fill="#dbeafe" font-size="12.5">2. Engine recomputes JCS bundle_id from observed OCI layers[] and verifies exact match with config blob (bundle-manifest.json).</text>
+  <text x="530" y="484" text-anchor="middle" fill="#dbeafe" font-size="12.5">3. Engine verifies 1:1 file digest equality across OCI layers[], OMS v1.0 resources[], CycloneDX 1.7 components[], and Release Qualification.</text>
+
+  <line x1="187" y1="345" x2="187" y2="385" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="530" y1="345" x2="530" y2="385" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="872" y1="345" x2="872" y2="385" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+</svg>

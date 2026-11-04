@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gemma-2b-serving
+  namespace: ai-serving
+  annotations:
+    trust.gke.dev/model-artifact: gemma-2b-it
+    trust.gke.dev/serving-config-digest: sha256:5555555555555555555555555555555555555555555555555555555555555555
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gemma-2b-serving
+  template:
+    metadata:
+      annotations:
+        trust.gke.dev/model-artifact: gemma-2b-it
+        trust.gke.dev/serving-config-digest: sha256:5555555555555555555555555555555555555555555555555555555555555555
+      labels:
+        app: gemma-2b-serving
+    spec:
+      containers:
+        - name: runtime
+          image: us-west4-docker.pkg.dev/PROJECT_ID/models/gke-model-admission-controller@sha256:9ca52f2367a58106b6081085e6d3c9020409e03dbc34e21155f06600e8d83c93
+          command: ["/manager", "--help"]

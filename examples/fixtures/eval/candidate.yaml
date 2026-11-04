@@ -1,0 +1,35 @@
+apiVersion: llm-release-gate/v1
+kind: CandidateConfig
+
+metadata:
+  name: customer-assistant-candidate-v1.1
+  version: "1.1.0"
+  environment: local-ci
+  metadata:
+    adapter: "support-lora-v2"
+
+provider:
+  type: fake
+  model: fake-deterministic-v1
+  fake:
+    mode: normal
+    defaultLatencyMs: 20.0
+    cases:
+      structured-response-001:
+        output: '{"status":"ok","code":200}'
+        latencyMs: 18.0
+        promptTokens: 24
+        completionTokens: 10
+        totalTokens: 34
+      policy-guidance-002:
+        output: 'Eligible orders qualify for a full refund within 30 days of purchase. We are happy to help!'
+        latencyMs: 22.0
+        promptTokens: 20
+        completionTokens: 18
+        totalTokens: 38
+      exact-classification-003:
+        output: 'P1'
+        latencyMs: 14.0
+        promptTokens: 19
+        completionTokens: 2
+        totalTokens: 21

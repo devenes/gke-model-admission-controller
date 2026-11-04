@@ -1,0 +1,23 @@
+{{- if .Values.certManager.enabled }}
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: gke-model-admission-selfsigned
+  namespace: {{ .Release.Namespace }}
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: gke-model-admission-webhook-cert
+  namespace: {{ .Release.Namespace }}
+spec:
+  secretName: gke-model-admission-webhook-tls
+  dnsNames:
+    - gke-model-admission-webhook.{{ .Release.Namespace }}.svc
+    - gke-model-admission-webhook.{{ .Release.Namespace }}.svc.cluster.local
+  issuerRef:
+    name: gke-model-admission-selfsigned
+    kind: Issuer
+{{- end }}

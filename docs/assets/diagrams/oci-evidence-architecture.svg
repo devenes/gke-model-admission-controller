@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 520" width="100%" height="auto" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#a855f7"/>
+    </marker>
+  </defs>
+
+  <rect width="1060" height="520" rx="16" fill="#0f172a"/>
+  <text x="530" y="40" text-anchor="middle" fill="#f8fafc" font-size="21" font-weight="700">OCI Distribution v1.1 Model Bundle &amp; 4 Referrer Graph</text>
+  <text x="530" y="64" text-anchor="middle" fill="#94a3b8" font-size="13">Discovered via GET /v2/&lt;repository&gt;/referrers/sha256:&lt;subject-manifest-digest&gt; on Google Artifact Registry</text>
+
+  <!-- Subject Manifest -->
+  <rect x="40" y="140" width="340" height="270" rx="12" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+  <text x="210" y="170" text-anchor="middle" fill="#38bdf8" font-size="15" font-weight="700">OCI v1.1 Subject Manifest</text>
+  <text x="210" y="192" text-anchor="middle" fill="#cbd5e1" font-size="11.5" font-family="monospace">application/vnd.devenes.model-bundle.v1</text>
+
+  <rect x="65" y="210" width="290" height="55" rx="8" fill="#0f172a" stroke="#0284c7" stroke-width="1.2"/>
+  <text x="210" y="232" text-anchor="middle" fill="#f8fafc" font-size="12.5" font-weight="600">Config Blob: bundle-manifest.json</text>
+  <text x="210" y="250" text-anchor="middle" fill="#7dd3fc" font-size="11">bundle-identity/v1 (Fetched &amp; Verified)</text>
+
+  <rect x="65" y="280" width="290" height="110" rx="8" fill="#0f172a" stroke="#475569" stroke-width="1.2"/>
+  <text x="210" y="302" text-anchor="middle" fill="#f8fafc" font-size="12.5" font-weight="600">Layer Descriptors (Zero Weight Fetch)</text>
+  <text x="80" y="324" fill="#cbd5e1" font-size="11" font-family="monospace">• config.json (model_config)</text>
+  <text x="80" y="344" fill="#cbd5e1" font-size="11" font-family="monospace">• model.safetensors (model_weights)</text>
+  <text x="80" y="364" fill="#cbd5e1" font-size="11" font-family="monospace">• tokenizer.json (tokenizer_vocab)</text>
+
+  <!-- 4 Referrers -->
+  <rect x="520" y="95" width="500" height="82" rx="10" fill="#1e293b" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="770" y="122" text-anchor="middle" fill="#f8fafc" font-size="14" font-weight="700">Referrer 1: OpenSSF Model Signing (OMS v1.0)</text>
+  <text x="770" y="142" text-anchor="middle" fill="#d8b4fe" font-size="11.5" font-family="monospace">artifactType: application/vnd.openssf.model-signing.signature.v1+json</text>
+  <text x="770" y="162" text-anchor="middle" fill="#94a3b8" font-size="11">Signed by trustDomains.modelSigners • Per-file SHA-256 resource verification</text>
+
+  <rect x="520" y="195" width="500" height="82" rx="10" fill="#1e293b" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="770" y="222" text-anchor="middle" fill="#f8fafc" font-size="14" font-weight="700">Referrer 2: CycloneDX 1.7 AI/ML-BOM</text>
+  <text x="770" y="242" text-anchor="middle" fill="#d8b4fe" font-size="11.5" font-family="monospace">artifactType: application/vnd.cyclonedx+json</text>
+  <text x="770" y="262" text-anchor="middle" fill="#94a3b8" font-size="11">1:1 file inventory correspondence • Root component bound to bundle_id</text>
+
+  <rect x="520" y="295" width="500" height="82" rx="10" fill="#1e293b" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="770" y="322" text-anchor="middle" fill="#f8fafc" font-size="14" font-weight="700">Referrer 3: Dual-Layer Evaluation Evidence</text>
+  <text x="770" y="342" text-anchor="middle" fill="#d8b4fe" font-size="11.5" font-family="monospace">artifactType: application/vnd.devenes.evaluation.attestation.v1+json</text>
+  <text x="770" y="362" text-anchor="middle" fill="#94a3b8" font-size="11">Signed by trustDomains.evaluators • NATIVE_EVALUATOR • report.json + evaluation.dsse.json</text>
+
+  <rect x="520" y="395" width="500" height="82" rx="10" fill="#1e293b" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="770" y="422" text-anchor="middle" fill="#f8fafc" font-size="14" font-weight="700">Referrer 4: Release Qualification Attestation</text>
+  <text x="770" y="442" text-anchor="middle" fill="#d8b4fe" font-size="11.5" font-family="monospace">artifactType: application/vnd.devenes.release-qualification.v1+json</text>
+  <text x="770" y="462" text-anchor="middle" fill="#94a3b8" font-size="11">Signed by trustDomains.releaseAuthorities • 5-Point Cross-Evidence Digest Binding</text>
+
+  <!-- Subject Arrows -->
+  <line x1="520" y1="136" x2="380" y2="220" stroke="#a855f7" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+  <line x1="520" y1="236" x2="380" y2="255" stroke="#a855f7" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+  <line x1="520" y1="336" x2="380" y2="290" stroke="#a855f7" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+  <line x1="520" y1="436" x2="380" y2="330" stroke="#a855f7" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+  <text x="450" y="168" text-anchor="middle" fill="#d8b4fe" font-size="11" font-weight="600">subject.digest</text>
+</svg>

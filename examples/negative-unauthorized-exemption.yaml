@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unauthorized-exempt-vllm
+  namespace: ai-serving
+  annotations:
+    trust.gke.dev/exempt: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: unauthorized-exempt-vllm
+      app.kubernetes.io/component: inference
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: unauthorized-exempt-vllm
+        app.kubernetes.io/component: inference
+      annotations:
+        trust.gke.dev/exempt: "true"
+    spec:
+      containers:
+        - name: vllm
+          image: us-west4-docker.pkg.dev/PROJECT_ID/models/vllm-runtime:latest
+          args:
+            - "--model=/models/unverified-model"

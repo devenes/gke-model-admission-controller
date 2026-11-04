@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unannotated-vllm-serving
+  namespace: ai-serving
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: unannotated-vllm
+      app.kubernetes.io/component: inference
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: unannotated-vllm
+        app.kubernetes.io/component: inference
+    spec:
+      containers:
+        - name: vllm
+          image: us-west4-docker.pkg.dev/PROJECT_ID/models/vllm-runtime@sha256:1111111111111111111111111111111111111111111111111111111111111111
+          args:
+            - "--model=/models/unverified-model"
